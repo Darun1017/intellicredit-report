@@ -122,7 +122,7 @@ def set_table_borders(table, color="D3D3D3"):
     tblPr.append(borders)
 
 
-def add_formatted_text(paragraph, text: str, default_font_size=10.5, default_color=COLOR_TEXT, default_bold=False, default_italic=False):
+def add_formatted_text(paragraph, text: str, default_font_size=12, default_color=COLOR_TEXT, default_bold=False, default_italic=False):
     """Parse inline markdown (bold, italic, code, math) and add formatted runs."""
     text = clean_latex(text)
     
@@ -162,7 +162,7 @@ def add_formatted_text(paragraph, text: str, default_font_size=10.5, default_col
             run.font.size = Pt(9.5)
             run.font.color.rgb = RGBColor(0x99, 0x00, 0x00)
         else:
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(default_font_size)
             run.font.color.rgb = default_color
 
@@ -175,7 +175,7 @@ def add_page_number_to_section(section):
     
     # Left text
     run_left = p.add_run("IntelliCredit: Capstone Final Report (23CSE452)\tPage ")
-    run_left.font.name = "Calibri"
+    run_left.font.name = "Times New Roman"
     run_left.font.size = Pt(9)
     run_left.font.color.rgb = COLOR_MUTED
     
@@ -184,7 +184,7 @@ def add_page_number_to_section(section):
     p._p.append(fldSimple)
     
     run_of = p.add_run(" of ")
-    run_of.font.name = "Calibri"
+    run_of.font.name = "Times New Roman"
     run_of.font.size = Pt(9)
     run_of.font.color.rgb = COLOR_MUTED
     
@@ -201,19 +201,30 @@ def main():
 
     # 1. Page setup - Standard Letter / A4 with 1 inch margins
     for section in doc.sections:
-        section.top_margin = Inches(1.0)
-        section.bottom_margin = Inches(1.0)
-        section.left_margin = Inches(1.0)
-        section.right_margin = Inches(1.0)
+        section.top_margin = Inches(0.72)
+        section.bottom_margin = Inches(0.70)
+        section.left_margin = Inches(0.85)
+        section.right_margin = Inches(0.85)
         section.page_width = Inches(8.5)
         section.page_height = Inches(11.0)
         add_page_number_to_section(section)
 
     # Base styles
     normal_style = doc.styles['Normal']
-    normal_style.font.name = 'Calibri'
-    normal_style.font.size = Pt(10.5)
+    normal_style.font.name = 'Times New Roman'
+    normal_style.font.size = Pt(12)
     normal_style.font.color.rgb = COLOR_TEXT
+    normal_style.paragraph_format.line_spacing = 1.5
+    normal_style.paragraph_format.space_after = Pt(5)
+
+    for style_name, size in [('Heading 1', 14), ('Heading 2', 12), ('Heading 3', 12)]:
+        style = doc.styles[style_name]
+        style.font.name = 'Times New Roman'
+        style.font.size = Pt(size)
+        style.font.bold = True
+        style.paragraph_format.space_before = Pt(12)
+        style.paragraph_format.space_after = Pt(5)
+        style.paragraph_format.keep_with_next = True
 
     # Split lines and parse blocks
     lines = md_content.splitlines()
@@ -242,7 +253,7 @@ def main():
             p.paragraph_format.space_before = Pt(36)
             p.paragraph_format.space_after = Pt(8)
             run = p.add_run("CAPSTONE PROJECT: FINAL REPORT")
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(13)
             run.bold = True
             run.font.color.rgb = COLOR_MUTED
@@ -256,7 +267,7 @@ def main():
             p.paragraph_format.space_before = Pt(12)
             p.paragraph_format.space_after = Pt(12)
             run = p.add_run(line.replace("#", "").strip())
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(24)
             run.bold = True
             run.font.color.rgb = COLOR_PRIMARY
@@ -270,7 +281,7 @@ def main():
             p.paragraph_format.space_before = Pt(4)
             p.paragraph_format.space_after = Pt(24)
             run = p.add_run(line.replace("###", "").strip())
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(12)
             run.italic = True
             run.font.color.rgb = COLOR_MUTED
@@ -293,8 +304,9 @@ def main():
                 "4. Feature Engineering",
                 "5. Advanced Analytics",
                 "6. Combined Business Insights",
-                "7. Production Interactive Application",
-                "8. Reflections",
+                "7. Interactive Application",
+                "8. End-to-End Validation",
+                "9. Conclusion",
                 "References",
                 "Appendices"
             ]
@@ -306,7 +318,7 @@ def main():
             h1.paragraph_format.space_after = Pt(6)
             h1.paragraph_format.keep_with_next = True
             run = h1.add_run(heading_text)
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(16)
             run.bold = True
             run.font.color.rgb = COLOR_PRIMARY
@@ -321,7 +333,7 @@ def main():
             h2.paragraph_format.space_after = Pt(4)
             h2.paragraph_format.keep_with_next = True
             run = h2.add_run(h2_text)
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(13)
             run.bold = True
             run.font.color.rgb = COLOR_SECONDARY
@@ -336,7 +348,7 @@ def main():
             h3.paragraph_format.space_after = Pt(2)
             h3.paragraph_format.keep_with_next = True
             run = h3.add_run(h3_text)
-            run.font.name = "Calibri"
+            run.font.name = "Times New Roman"
             run.font.size = Pt(11)
             run.bold = True
             run.font.color.rgb = COLOR_MUTED
@@ -382,7 +394,7 @@ def main():
                     p_cap.paragraph_format.space_before = Pt(2)
                     p_cap.paragraph_format.space_after = Pt(12)
                     run_cap = p_cap.add_run(caption_text)
-                    run_cap.font.name = "Calibri"
+                    run_cap.font.name = "Times New Roman"
                     run_cap.font.size = Pt(9.0)
                     run_cap.italic = True
                     run_cap.font.color.rgb = COLOR_MUTED
@@ -473,7 +485,7 @@ def main():
                     p_tcap.paragraph_format.space_before = Pt(4)
                     p_tcap.paragraph_format.space_after = Pt(12)
                     run_tcap = p_tcap.add_run(caption_line)
-                    run_tcap.font.name = "Calibri"
+                    run_tcap.font.name = "Times New Roman"
                     run_tcap.font.size = Pt(9.0)
                     run_tcap.italic = True
                     run_tcap.font.color.rgb = COLOR_MUTED
@@ -504,8 +516,8 @@ def main():
             p_list = doc.add_paragraph(style='List Bullet')
             p_list.paragraph_format.space_before = Pt(2)
             p_list.paragraph_format.space_after = Pt(2)
-            p_list.paragraph_format.line_spacing = 1.15
-            add_formatted_text(p_list, list_text, default_font_size=10.5, default_color=COLOR_TEXT)
+            p_list.paragraph_format.line_spacing = 1.5
+            add_formatted_text(p_list, list_text, default_font_size=12, default_color=COLOR_TEXT)
             i += 1
             continue
 
@@ -516,8 +528,8 @@ def main():
             p_num = doc.add_paragraph(style='List Number')
             p_num.paragraph_format.space_before = Pt(2)
             p_num.paragraph_format.space_after = Pt(2)
-            p_num.paragraph_format.line_spacing = 1.15
-            add_formatted_text(p_num, num_text, default_font_size=10.5, default_color=COLOR_TEXT)
+            p_num.paragraph_format.line_spacing = 1.5
+            add_formatted_text(p_num, num_text, default_font_size=12, default_color=COLOR_TEXT)
             i += 1
             continue
 
@@ -544,8 +556,8 @@ def main():
         p_body = doc.add_paragraph()
         p_body.paragraph_format.space_before = Pt(0)
         p_body.paragraph_format.space_after = Pt(5)
-        p_body.paragraph_format.line_spacing = 1.15
-        add_formatted_text(p_body, line, default_font_size=10.5, default_color=COLOR_TEXT)
+        p_body.paragraph_format.line_spacing = 1.5
+        add_formatted_text(p_body, line, default_font_size=12, default_color=COLOR_TEXT)
         i += 1
 
     print(f"Saving compiled Word document to: {DOCX_PATH}")
